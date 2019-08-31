@@ -1,0 +1,21 @@
+- name: Install firewalld
+  yum:
+    name:
+      - epel-release
+      - firewalld
+    state: present
+
+- name: Copy the default configuration file
+  command: cp /usr/lib/firewalld/services/ssh.xml /etc/firewalld/services/
+
+- name: Amend the configuration file
+  replace:
+    path: /etc/firewalld/services/ssh.xml
+    regexp: '^  <port protocol="tcp" port="22"/>$'
+    replace: '  <port protocol="tcp" port="{{ ssh_port }}"/>'
+
+- name: Execute firewalld
+  systemd:
+    name: firewalld
+    state: started
+    enabled: yes

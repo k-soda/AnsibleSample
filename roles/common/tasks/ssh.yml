@@ -1,0 +1,22 @@
+- name: Amend the PermitRootLogin configuration
+  replace:
+    path: /etc/ssh/sshd_config
+    regexp: '^#PermitRootLogin yes$'
+    replace: 'PermitRootLogin no'
+
+- name: Amend the Port configuration
+  replace:
+    path: /etc/ssh/sshd_config
+    regexp: '^#Port 22$'
+    replace: 'Port {{ ssh_port }}'
+
+- name: Amend the PasswordAuthentication configuration
+  replace:
+    path: /etc/ssh/sshd_config
+    regexp: '^PasswordAuthentication yes$'
+    replace: 'PasswordAuthentication no'
+
+- name: Restart sshd
+  systemd:
+    name: sshd
+    state: restarted

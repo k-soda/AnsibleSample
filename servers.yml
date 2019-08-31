@@ -1,0 +1,6 @@
+- hosts: default
+  vars_files:
+    - group_vars/administrator.yml
+    - host_vars/default.yml
+  roles:
+    - common
