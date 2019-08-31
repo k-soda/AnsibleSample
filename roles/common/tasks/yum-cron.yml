@@ -1,0 +1,17 @@
+- name: Install yum-cron
+  yum:
+    name:
+      - yum-cron
+    state: present
+
+- name: Update the configuration file
+  replace:
+    path: /etc/yum/yum-cron.conf
+    regexp: '^apply_updates = no$'
+    replace: 'apply_updates = yes'
+
+- name: Execute yum-cron
+  systemd:
+    name: yum-cron
+    state: started
+    enabled: yes
